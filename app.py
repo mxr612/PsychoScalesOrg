@@ -1,8 +1,13 @@
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 import json
 import os
-from flask import Flask, render_template, request
+import uvicorn
 
-app = Flask(__name__)
+app = FastAPI()
+templates = Jinja2Templates(directory="templates")
 
 # 加载所有问卷数据
 def load_all_scales():
@@ -17,21 +22,27 @@ def load_all_scales():
                 scales[scale_id] = scale
     return scales
 
-@app.route('/')
-def index():
+@app.get("/", response_class=HTMLResponse)
+async def index(request: Request):
     scales = load_all_scales()
-    return render_template('index.html', scales=scales)
+    return templates.TemplateResponse("index.html", {"request": request, "scales": scales})
 
-@app.route('/scales/<scale_id>')
-def scale(scale_id):
+@app.get("/scales/{scale_id}", response_class=HTMLResponse)
+async def scale(request: Request, scale_id: str):
     scales = load_all_scales()
     scale = scales.get(scale_id)
     if scale:
-        return render_template('scale.html', scale_id=scale_id,scale=scale)
-    return "问卷未找到", 404
+        return templates.TemplateResponse("scale.html", {
+            "request": request,
+            "scale_id": scale_id,
+            "scale": scale
+        })
+    raise HTTPException(status_code=404, detail="问卷未找到")
 
-@app.route('/result/<scale_id>', methods=['POST'])
-def result(scale_id):
+@app.post("/result/{scale_id}", response_class=HTMLResponse)
+async def result(request: Request, scale_id: str):
+    # 保留原有的计分逻辑...
+    form_data = await request.form()
     # print(request.form)
     scales = load_all_scales()
     scale = scales.get(scale_id)
@@ -45,16 +56,21 @@ def result(scale_id):
                 responses[question['subscale']] = 0
                 ranges[question['subscale']] = [0,0]
             if 'reverse' in question and question['reverse']:
-                responses[question['subscale']] += question['range'][1] + question['range'][0] - int( request.form[question['id']])
+                responses[question['subscale']] += question['range'][1] + question['range'][0] - int( form_data[question['id']])
             else:
-                responses[question['subscale']] += int( request.form[question['id']])
+                responses[question['subscale']] += int( form_data[question['id']])
             ranges[question['subscale']][0] += question['range'][0]
             ranges[question['subscale']][1] += question['range'][1]
         # 这里可以添加保存数据到数据库等逻辑
         # print(ranges)
-        return render_template('result.html', responses=responses, ranges=ranges, scale_title=scale['title'])
-    return "问卷未找到", 404
+        return templates.TemplateResponse("result.html", {
+            "request": request,
+            "responses": responses,
+            "ranges": ranges,
+            "scale_title": scale['title']
+        })
+    raise HTTPException(status_code=404, detail="问卷未找到")
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+   uvicorn.run(app,host='0.0.0.0',port=8000)
