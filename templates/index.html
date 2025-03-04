@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心尺 PsychoScales</title>
+</head>
+<body>
+    <h1>心尺 PsychoScales</h1>
+    <ul>
+        {% for scale_id, scale in scales.items() %}
+            <li><a href="{{ url_for('scale', scale_id=scale_id) }}">{{ scale.get('title', '未命名问卷') }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
