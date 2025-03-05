@@ -11,7 +11,7 @@
 <body>
     <h1>{{ scale.title }}</h1>
     <p>{{ scale.instructions }}</p>
-    <form action="{{ url_for('result', scale_id=scale_id) }}" method="post">
+    <form action="/result/{{ scale_id }}" method="post">
         {% for question in scale.questions %}
         <label for="{{ question.id }}">{{ question.text }}</label>
         <div class="scale-button">

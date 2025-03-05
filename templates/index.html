@@ -16,7 +16,7 @@
     {% endif %}
     <ul>
         {% for scale_id, scale in scales.items() %}
-        <li><a href="{{ url_for('scale', scale_id=scale_id) }}">{{ scale.get('title', '未命名问卷') }}</a></li>
+        <li><a href="/scales/{{ scale_id }}">{{ scale.get('title', '未命名问卷') }}</a></li>
         {% endfor %}
     </ul>
 </body>
