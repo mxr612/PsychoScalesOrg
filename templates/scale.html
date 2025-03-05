@@ -1,48 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ scale.title }}</title>
-    <style>
-        /* 定义单选按钮容器样式 */
-        .radio-button-group {
-            display: flex;
-            gap: 10px; /* 按钮之间的间距 */
-        }
-        /* 定义单选按钮隐藏样式 */
-        .radio-button-group input[type="radio"] {
-            display: none;
-        }
-        /* 定义单选按钮标签样式 */
-        .radio-button-group label {
-            padding: 10px 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        /* 定义单选按钮选中时标签样式 */
-        .radio-button-group input[type="radio"]:checked + label {
-            background-color: #007BFF;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
 </head>
+
 <body>
     <h1>{{ scale.title }}</h1>
     <p>{{ scale.instructions }}</p>
     <form action="{{ url_for('result', scale_id=scale_id) }}" method="post">
         {% for question in scale.questions %}
-            <label for="{{ question.id }}">{{ question.text }}</label>
-            <div class="radio-button-group">
-                <!-- 将下拉菜单替换为单选按钮 -->
-                {% for option in range(question.range[0], question.range[1]+1) %}
-                    <input type="radio" id="{{ question.id }}_{{ option }}" name="{{ question.id }}" value="{{ option }}" {% if not ( 'optional' in question and question.optional) %}required{% endif %}>
-                    <label for="{{ question.id }}_{{ option }}">{{ option }}</label>
-                {% endfor %}
-            </div>
+        <label for="{{ question.id }}">{{ question.text }}</label>
+        <div class="radio-button-group">
+            <!-- 将下拉菜单替换为单选按钮 -->
+            {% for option in range(question.range[0], question.range[1]+1) %}
+            <input type="radio" id="{{ question.id }}_{{ option }}" name="{{ question.id }}" value="{{ option }}" {% if
+                not ( 'optional' in question and question.optional) %}required{% endif %}>
+            <label for="{{ question.id }}_{{ option }}">{{ option }}</label>
+            {% endfor %}
+        </div>
         {% endfor %}
         <input type="submit" value="提交">
     </form>
 </body>
+
 </html>

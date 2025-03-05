@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>心尺 PsychoScales</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
 </head>
+
 <body>
     {% if readme_content %}
     <div class="readme-section">
@@ -13,8 +16,9 @@
     {% endif %}
     <ul>
         {% for scale_id, scale in scales.items() %}
-            <li><a href="{{ url_for('scale', scale_id=scale_id) }}">{{ scale.get('title', '未命名问卷') }}</a></li>
+        <li><a href="{{ url_for('scale', scale_id=scale_id) }}">{{ scale.get('title', '未命名问卷') }}</a></li>
         {% endfor %}
     </ul>
 </body>
+
 </html>

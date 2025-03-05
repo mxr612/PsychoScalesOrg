@@ -9,6 +9,7 @@ import uvicorn
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 加载所有问卷数据
 def load_all_scales():
