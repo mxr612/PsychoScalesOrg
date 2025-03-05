@@ -6,11 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ scale.title }}</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <!-- 添加KaTeX支持 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}]});">
+            </script>
 </head>
 
 <body>
     <h1>{{ scale.title }}</h1>
-    <p>{{ scale.instructions }}</p>
+    <div>
+        {{ scale.instructions|safe }}
+    </div>
     <form action="/result/{{ scale_id }}" method="post">
         {% for id, question in scale.questions.items() %}
         <label for="{{ id }}">{{ id }}. {{ question }}</label>
