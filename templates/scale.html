@@ -14,7 +14,7 @@
     <form action="{{ url_for('result', scale_id=scale_id) }}" method="post">
         {% for question in scale.questions %}
         <label for="{{ question.id }}">{{ question.text }}</label>
-        <div class="radio-button-group">
+        <div class="scale-button">
             <!-- 将下拉菜单替换为单选按钮 -->
             {% for option in range(question.range[0], question.range[1]+1) %}
             <input type="radio" id="{{ question.id }}_{{ option }}" name="{{ question.id }}" value="{{ option }}" {% if
