@@ -6,7 +6,11 @@
     <title>心尺 PsychoScales</title>
 </head>
 <body>
-    <h1>心尺 PsychoScales</h1>
+    {% if readme_content %}
+    <div class="readme-section">
+        {{ readme_content|safe }}
+    </div>
+    {% endif %}
     <ul>
         {% for scale_id, scale in scales.items() %}
             <li><a href="{{ url_for('scale', scale_id=scale_id) }}">{{ scale.get('title', '未命名问卷') }}</a></li>

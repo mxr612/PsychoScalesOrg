@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse
+import markdown
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import json
@@ -25,7 +26,18 @@ def load_all_scales():
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     scales = load_all_scales()
-    return templates.TemplateResponse("index.html", {"request": request, "scales": scales})
+    # 新增读取README.md的逻辑
+    readme_content = ""
+    try:
+        with open("README.md", "r", encoding="utf-8") as f:
+            readme_content = markdown.markdown(f.read())
+    except FileNotFoundError:
+        pass  # 如果README不存在则静默失败
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "scales": scales,
+        "readme_content": readme_content  # 新增模板变量
+    })
 
 @app.get("/scales/{scale_id}", response_class=HTMLResponse)
 async def scale(request: Request, scale_id: str):
