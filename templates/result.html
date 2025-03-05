@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result</title>
+    <title>{{scale_title}}</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 
 <body>
-    <h1>{{ scale_title }} </h1>
-    <!-- <h2>您的结果如下：</h2> -->
+    <h1>{{ scale.title }} </h1>
     <ul>
         {% for key, value in responses.items() %}
         <li>{{ key }}: 在 {{ranges[key][0]}} 到 {{ranges[key][1]}} 的量表中得分 {{ value }}</li>
         {% endfor %}
     </ul>
+    <p>{{scale.description}}</p>
 </body>
 
 </html>

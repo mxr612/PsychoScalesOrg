@@ -12,14 +12,13 @@
     <h1>{{ scale.title }}</h1>
     <p>{{ scale.instructions }}</p>
     <form action="/result/{{ scale_id }}" method="post">
-        {% for question in scale.questions %}
-        <label for="{{ question.id }}">{{ question.text }}</label>
+        {% for id, question in scale.questions.items() %}
+        <label for="{{ id }}">{{ id }}. {{ question }}</label>
         <div class="scale-button">
-            <!-- 将下拉菜单替换为单选按钮 -->
-            {% for option in range(question.range[0], question.range[1]+1) %}
-            <input type="radio" id="{{ question.id }}_{{ option }}" name="{{ question.id }}" value="{{ option }}" {% if
-                not ( 'optional' in question and question.optional) %}required{% endif %}>
-            <label for="{{ question.id }}_{{ option }}">{{ option }}</label>
+            {% for option in range(scale.range[0], scale.range[1]+1) %}
+            <input type="radio" id="{{ id }}_{{ option }}" name="{{ id }}" value="{{ option }}" {% if not ( 'optional'
+                in question and question.optional) %}required{% endif %}>
+            <label for="{{ id }}_{{ option }}">{{ option }}</label>
             {% endfor %}
         </div>
         {% endfor %}
