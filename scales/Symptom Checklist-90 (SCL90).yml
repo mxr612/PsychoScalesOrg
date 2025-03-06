@@ -1,0 +1,119 @@
+title: Symptom Checklist-90 (SCL90)
+instructions: |
+  Below is a list of problems and complaints that people sometimes have. Please read each one carefully. After you have done so, select one of the numbered descriptors that best describes HOW
+  MUCH THAT PROBLEM HAS BOTHERED OR DISTRESSED YOU DURING THE
+  PAST WEEK, INCLUDING TODAY. Circle the number in the space to the right of the problem and do not skip any items. Use the following key to guide how you respond:
+
+  - Circle 0 if your answer is NOT AT ALL
+  - Circle 1 if A LITTLE BIT
+  - Circle 2 if MODERATELY
+  - Circle 3 if QUITE A BIT
+  - Circle 4 if EXTREMELY
+descriptions: |
+  The Symptom Checklist-90 (SCL90) is a 90-item questionnaire used to assess psychological problems. The Symptom Checklist-90-Revised (SCL90R) is the revised version of the questionnaire. The revised version is almost identical (2 questions with slightly different wording), but the main difference is that the SCL90R is not available on the public domain.
+
+  https://arc.psych.wisc.edu/self-report/symptom-checklist-90-scl90/
+abstract: The Symptom Checklist-90 (SCL90) is a 90-item questionnaire used to assess psychological problems. The Symptom Checklist-90-Revised (SCL90R) is the revised version of the questionnaire. The revised version is almost identical (2 questions with slightly different wording), but the main difference is that the SCL90R is not available on the public domain.
+subscales:
+  Somatization: [1, 4, 12, 27, 40, 42, 48, 49, 52, 53, 56, 58]
+  Obsessive-compulsive: [3, 9, 10, 28, 38, 45, 46, 51, 55, 65]
+  Interpersonal sensibility: [6, 21, 34, 36, 37, 41, 61, 69, 73]
+  Depression: [5, 14, 20, 22, 26, 29, 30, 31, 32, 54, 71, 79]
+  Anxiety: [17, 23, 33, 39, 57, 72, 78, 80, 86]
+  Anger-hostility: [11, 24, 63, 67, 74, 81]
+  Phobic-anxiety: [13, 25, 47, 50, 70, 75, 82]
+  Paranoid ideation: [8, 18, 43, 68, 76, 83]
+  Psychoticism: [7, 16, 35, 62, 77, 84, 85, 87, 88, 90]
+  Additional items: [19, 44, 59, 60, 64, 89]
+range: [0,4]
+questions:
+  1: Headaches
+  2: Nervousness or shakiness inside
+  3: Unwanted thoughts, words, or ideas that won’t leave your mind
+  4: Faintness or dizziness
+  5: Loss of sexual interest or pleasure
+  6: Feeling critical of others
+  7: The idea that someone else can control your thoughts
+  8: Feeling others are to blame for most of your troubles
+  9: Trouble remembering things
+  10: Worried about sloppiness or carelessness
+  11: Feeling easily annoyed or irritated
+  12: Pains in heart or chest
+  13: Feeling afraid in open spaces or on the streets
+  14: Feeling low in energy or slowed down
+  15: Thoughts of ending your life
+  16: Hearing voices that other people do not hear
+  17: Trembling
+  18: Feeling that most people cannot be trusted
+  19: Poor appetite
+  20: Crying easily
+  21: Feeling shy or uneasy with the opposite sex
+  22: Feeling of being trapped or caught
+  23: Suddenly scared for no reason
+  24: Temper outbursts that you could not control
+  25: Feeling afraid to go out of your house alone
+  26: Blaming yourself for things
+  27: Pains in lower back
+  28: Feeling blocked in getting things done
+  29: Feeling lonely
+  30: Feeling blue
+  31: Worrying too much about things
+  32: Feeling no interest in things
+  33: Feeling fearful
+  34: Your feelings being easily hurt
+  35: Other people being aware of your private thoughts
+  36: Feeling others do not understand you or are unsympathetic
+  37: Feeling that people are unfriendly or dislike you
+  38: Having to do things very slowly to insure correctness
+  39: Heart pounding or racing
+  40: Nausea or upset stomach
+  41: Feeling inferior to others
+  42: Soreness of your muscles
+  43: Feeling that you are watched or talked about by others
+  44: Trouble falling asleep
+  45: Having to check and double-check what you do
+  46: Difficulty making decisions
+  47: Feeling afraid to travel on buses, subways, trains
+  48: Trouble getting your breath
+  49: Hot or cold spells
+  50: Having to avoid certain things, places, or activities because they frighten you
+  51: Your mind going blank
+  52: Numbness or tingling in parts of your body
+  53: A lump in your throat
+  54: Feeling hopeless about the future
+  55: Trouble concentrating
+  56: Feeling weak in parts of your body
+  57: Feeling tense or keyed up
+  58: Heavy feelings in your arms or legs
+  59: Thoughts of death or dying
+  60: Overeating
+  61: Feeling uneasy when people are watching or talking about you
+  62: Having thoughts that are not your own
+  63: Having urges to beat, injure, or harm someone
+  64: Awakening in the early morning
+  65: Having to repeat the same actions such as touching, counting, washing
+  66: Sleep that is restless or disturbed
+  67: Having urges to break or smash things
+  68: Having ideas or beliefs that others do not share
+  69: Feeling very self-conscious with others
+  70: Feeling uneasy in crowds, such as shopping or at a movie
+  71: Feeling everything is an effort
+  72: Spells of terror or panic
+  73: Feeling uncomfortable about eating or drinking in public
+  74: Getting into frequent arguments
+  75: Feeling nervous when you are left alone
+  76: Others not giving you proper credit for your achievements
+  77: Feeling lonely even when you are with people
+  78: Feeling so restless you couldn’t sit still
+  79: Feelings of worthlessness
+  80: Feeling that familiar things are strange or unreal
+  81: Shouting or throwing things
+  82: Feeling afraid you will faint in public
+  83: Feeling that people will take advantage of you if you let them
+  84: Having thoughts about sex that bother you a lot
+  85: The idea that you should be punished for your sins
+  86: Feeling pushed to get things done
+  87: The idea that something serious is wrong with your body
+  88: Never feeling close to another person
+  89: Feelings of guilt
+  90: The idea that something is wrong with your mind
