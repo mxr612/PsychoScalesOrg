@@ -8,6 +8,10 @@ PsychoScales网站是一个专业的心理学资源平台，旨在为用户提�
 
 [PsychoScales主站](https://psygscales.com/)
 
+联系我们：feedback@psygscales.com
+
+用户社区：QQ 513869177
+
 ## 关于PsychoScales Org
 
 这个一个开源的量表框架，基于Python搭建。
