@@ -1,31 +1,13 @@
-<!DOCTYPE html>
-<html lang="zh">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心尺 PsychoScales</title>
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
+{% block head_extra %}
+<title>心尺 PsychoScales</title>
+{% endblock %}
 
-<body>
-    <div class="header">
-
-    </div>
-    <div class="content">
-        {% if readme_content %}
-        <div class="readme-section">
-            {{ readme_content|safe }}
-        </div>
-        {% endif %}
-        <ul>
-            {% for key,value in lang.items() %}
-            <li><a href="/{{ key }}"">{{ value }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-</body>
-
-
-
-</html>
+{% block main %}
+{% if readme_content %}
+<div class="readme-section">
+    {{ readme_content|safe }}
+</div>
+{% endif %}
+{% endblock %}

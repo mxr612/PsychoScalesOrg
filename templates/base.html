@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- <html lang="zh"> -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <!-- 添加KaTeX支持 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: false}]});">
+            </script>
+    {% block head_extra %}{% endblock %}
+</head>
+
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="logo">PsychoScales</a>
+        </div>
+        <ul class="nav-links">
+            {% for key,value in tags.items() %}
+            <li><a href="/{{ key }}"">{{ value }}</a></li>
+                {% endfor %}
+        </ul>
+    </nav>
+    <br>
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+</body>
+
+</html>

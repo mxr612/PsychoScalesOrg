@@ -15,10 +15,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def load_all_scales():
     scale_folder = 'scales'
     scales = {}
-    lang = {}
+    tags = {}
     try:
-        with open(os.path.join('langmap.yml'), 'r', encoding='utf-8') as f:    
-            langmap = yaml.safe_load(f)
+        with open(os.path.join('tagmap.yml'), 'r', encoding='utf-8') as f:    
+            tagmap = yaml.safe_load(f)
     except Exception as e:
         print(f"Error loading scale langmap: {e}")
     for filename in os.listdir(scale_folder):
@@ -28,18 +28,18 @@ def load_all_scales():
                     scale = yaml.safe_load(f)
                     scale['instructions']=markdown.markdown(scale['instructions'], extensions=['fenced_code','tables','mdx_math'])
                     scale['descriptions']=markdown.markdown(scale['descriptions'], extensions=['fenced_code','tables','mdx_math'])
-                    if 'lang' not in scale or scale['lang'] not in langmap:
-                        scale['lang']='other'
-                    lang[scale['lang']]=langmap[scale['lang']]
+                    if 'tag' not in scale or scale['tag'] not in tagmap:
+                        scale['tag']='other'
+                    tags[scale['tag']]=tagmap[scale['tag']]
                     scale_id = os.path.splitext(filename)[0] # 使用文件名作为标识
                     scales[scale_id] = scale
             except Exception as e:
                 print(f"Error loading scale {filename}: {e}")
-    return lang, scales
+    return tags, scales
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    lang, _ = load_all_scales()
+    tags, _ = load_all_scales()
     # 新增读取README.md的逻辑
     readme_content = ""
     try:
@@ -49,35 +49,37 @@ async def index(request: Request):
         pass  # 如果README不存在则静默失败
     return templates.TemplateResponse("index.html", {
         "request": request,
-        "lang": lang,
+        "tags": tags,
         "readme_content": readme_content  # 新增模板变量
     })
 
-@app.get("/{lang}", response_class=HTMLResponse)
-async def scale(request: Request, lang: str):
-    _, scales = load_all_scales()
+@app.get("/{tag}", response_class=HTMLResponse)
+async def list(request: Request, tag: str):
+    tags, scales = load_all_scales()
     return templates.TemplateResponse("list.html", {
         "request": request,
+        "tags": tags,
         "scales": scales,
-        "lang": lang
+        "tag": tag
     })
 
 @app.get("/scales/{scale_id}", response_class=HTMLResponse)
 async def scale(request: Request, scale_id: str):
-    _, scales = load_all_scales()
+    tags, scales = load_all_scales()
     scale = scales.get(scale_id)
     if scale:
         return templates.TemplateResponse("scale.html", {
             "request": request,
             "scale_id": scale_id,
-            "scale": scale
+            "scale": scale,
+            "tags":tags
         })
     raise HTTPException(status_code=404, detail="问卷未找到")
 
 @app.post("/scales/{scale_id}", response_class=HTMLResponse)
 async def result(request: Request, scale_id: str):
     form_data = await request.form()
-    lang, scales = load_all_scales()
+    tags, scales = load_all_scales()
     scale = scales.get(scale_id)
     if scale:
         # 这里可以添加保存数据到数据库等逻辑
@@ -95,7 +97,8 @@ async def result(request: Request, scale_id: str):
             "request": request,
             "responses": responses,
             "ranges": ranges,
-            "scale": scale
+            "scale": scale,
+            "tags":tags
         })
     raise HTTPException(status_code=404, detail="问卷未找到")
 

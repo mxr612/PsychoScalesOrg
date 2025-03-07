@@ -12,7 +12,7 @@ body {
     min-height: 100vh;
 }
 
-.content {
+main {
     /* 可选：添加一些内边距，让内容不紧贴容器边缘 */
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -26,7 +26,7 @@ body {
 }
 
 @media (max-width: 768px) {
-    .content {
+    main {
         width: 95%;
         /* 全屏展示 */
         padding-top: 10px;
@@ -61,4 +61,52 @@ body {
 .scale-button input[type="radio"]:checked+label {
     background-color: #007BFF;
     color: white;
+}
+
+/* 导航栏样式 */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f9fa;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left .logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #34495e;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #3498db;
+}
+
+body {
+    margin: 0;
+    padding-top: 80px;
+    /* 增加顶部内边距避免内容被导航栏遮挡 */
+    min-height: calc(100vh - 80px);
+    /* 补偿导航栏高度 */
 }

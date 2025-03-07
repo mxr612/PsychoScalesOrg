@@ -1,40 +1,25 @@
-<!DOCTYPE html>
-<html lang="zh">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ scale.title }}</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    <!-- 添加KaTeX支持 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false}]});">
-            </script>
-</head>
+{% block head_extra %}
+<title>{{ scale.title }}</title>
+{% endblock %}
 
-<body>
-    <div class="content">
-        <h1>{{ scale.title }}</h1>
-        <div>
-            {{ scale.instructions|safe }}
-        </div>
-        <form action="/scales/{{ scale_id }}" method="post">
-            {% for id, question in scale.questions.items() %}
-            <label for="{{ id }}">{{ id }}. {{ question }}</label>
-            <div class="scale-button">
-                {% for option in range(scale.range[0], scale.range[1]+1) %}
-                <input type="radio" id="{{ id }}_{{ option }}" name="{{ id }}" value="{{ option }}" {% if not
-                    ( 'optional' in question and question.optional) %}required{% endif %}>
-                <label for="{{ id }}_{{ option }}">{{ option }}</label>
-                {% endfor %}
-            </div>
-            {% endfor %}
-            <input type="submit" value="提交">
-        </form>
+{% block main %}
+<h1>{{ scale.title }}</h1>
+<div>
+    {{ scale.instructions|safe }}
+</div>
+<form action="/scales/{{ scale_id }}" method="post">
+    {% for id, question in scale.questions.items() %}
+    <label for="{{ id }}">{{ id }}. {{ question }}</label>
+    <div class="scale-button">
+        {% for option in range(scale.range[0], scale.range[1]+1) %}
+        <input type="radio" id="{{ id }}_{{ option }}" name="{{ id }}" value="{{ option }}" {% if not ( 'optional' in
+            question and question.optional) %}required{% endif %}>
+        <label for="{{ id }}_{{ option }}">{{ option }}</label>
+        {% endfor %}
     </div>
-</body>
-
-</html>
+    {% endfor %}
+    <input type="submit" value="提交">
+</form>
+{% endblock %}
