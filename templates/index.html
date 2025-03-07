@@ -9,17 +9,23 @@
 </head>
 
 <body>
-    {% if readme_content %}
-    <div class="readme-section">
-        {{ readme_content|safe }}
+    <div class="header">
+
     </div>
-    {% endif %}
-    <ul>
-        {% for scale_id, scale in scales.items() %}
-        <li><a href="/scales/{{ scale_id }}" , title=" {{ scale.abstract }}">{{ scale.get('title',
-                '未命名问卷') }}</a></li>
-        {% endfor %}
-    </ul>
+    <div class="content">
+        {% if readme_content %}
+        <div class="readme-section">
+            {{ readme_content|safe }}
+        </div>
+        {% endif %}
+        <ul>
+            {% for key,value in lang.items() %}
+            <li><a href="/{{ key }}"">{{ value }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
+
+
 
 </html>

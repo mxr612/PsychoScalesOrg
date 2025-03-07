@@ -1,27 +1,35 @@
-/* 全局样式 */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
+    padding-top: 20px;
+    /* 使用 flexbox 布局实现 body 内元素的居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 确保 body 至少占据整个视口的高度 */
+    min-height: 100vh;
+}
 
-    width: 40%;
-    max-width: 1200px;
-    margin: 0 auto;
-
+.content {
     /* 可选：添加一些内边距，让内容不紧贴容器边缘 */
     padding: 20px;
-
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     /* 设置背景颜色为纯白色 */
     background-color: #ffffff;
     color: #333;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 40%;
+    max-width: 1200px;
+    /* 保留 margin: 0 auto; 用于水平居中 */
+    margin: 0 auto;
 }
 
 @media (max-width: 768px) {
-    body {
+    .content {
         width: 95%;
         /* 全屏展示 */
+        padding-top: 10px;
         padding: 10px;
         /* 适当调整内边距 */
     }

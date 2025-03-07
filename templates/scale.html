@@ -16,23 +16,25 @@
 </head>
 
 <body>
-    <h1>{{ scale.title }}</h1>
-    <div>
-        {{ scale.instructions|safe }}
-    </div>
-    <form action="/result/{{ scale_id }}" method="post">
-        {% for id, question in scale.questions.items() %}
-        <label for="{{ id }}">{{ id }}. {{ question }}</label>
-        <div class="scale-button">
-            {% for option in range(scale.range[0], scale.range[1]+1) %}
-            <input type="radio" id="{{ id }}_{{ option }}" name="{{ id }}" value="{{ option }}" {% if not ( 'optional'
-                in question and question.optional) %}required{% endif %}>
-            <label for="{{ id }}_{{ option }}">{{ option }}</label>
-            {% endfor %}
+    <div class="content">
+        <h1>{{ scale.title }}</h1>
+        <div>
+            {{ scale.instructions|safe }}
         </div>
-        {% endfor %}
-        <input type="submit" value="提交">
-    </form>
+        <form action="/scales/{{ scale_id }}" method="post">
+            {% for id, question in scale.questions.items() %}
+            <label for="{{ id }}">{{ id }}. {{ question }}</label>
+            <div class="scale-button">
+                {% for option in range(scale.range[0], scale.range[1]+1) %}
+                <input type="radio" id="{{ id }}_{{ option }}" name="{{ id }}" value="{{ option }}" {% if not
+                    ( 'optional' in question and question.optional) %}required{% endif %}>
+                <label for="{{ id }}_{{ option }}">{{ option }}</label>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <input type="submit" value="提交">
+        </form>
+    </div>
 </body>
 
 </html>

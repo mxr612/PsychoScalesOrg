@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心尺 PsychoScales</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <div class="header">
+
+    </div>
+    <div class="content">
+        <ul>
+            {% for scale_id, scale in scales.items() %}
+            {% if scale.lang == lang %}
+            <li><a href="/scales/{{ scale_id }}" , title=" {{ scale.abstract }}">{{ scale.get('title','未命名问卷') }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+
+</html>
