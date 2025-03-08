@@ -38,7 +38,6 @@ main {
 /* 定义单选按钮容器样式 */
 .scale-button {
     display: flex;
-    gap: 10px;
     /* 按钮之间的间距 */
 }
 
@@ -50,9 +49,7 @@ main {
 /* 定义单选按钮标签样式 */
 .scale-button label {
     flex-grow: 1;
-    padding: 10px 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
     cursor: pointer;
     text-align: center;
 }
