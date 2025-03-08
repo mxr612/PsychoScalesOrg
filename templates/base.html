@@ -22,11 +22,11 @@
         </div>
         <ul class="nav-links">
             {% for key,value in tags.items() %}
-            <li><a href="/{{ key }}"">{{ value }}</a></li>
-                {% endfor %}
+            <li><a href="/tag/{{ key }}"">{{ value }}</a></li>
+                    {% endfor %}
         </ul>
     </nav>
-    <br>
+    
     <main>
         {% block main %}{% endblock %}
     </main>

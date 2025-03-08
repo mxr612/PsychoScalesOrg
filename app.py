@@ -53,7 +53,7 @@ async def index(request: Request):
         "readme_content": readme_content  # 新增模板变量
     })
 
-@app.get("/{tag}", response_class=HTMLResponse)
+@app.get("/tag/{tag}", response_class=HTMLResponse)
 async def list(request: Request, tag: str):
     tags, scales = load_all_scales()
     return templates.TemplateResponse("list.html", {
