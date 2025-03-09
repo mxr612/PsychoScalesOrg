@@ -20,10 +20,11 @@
         <div class="nav-left">
             <a href="/" class="logo">PsychoScales</a>
         </div>
+        <div class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰ </div>
         <ul class="nav-links">
             {% for key,value in tags.items() %}
             <li><a href="/tag/{{ key }}"">{{ value }}</a></li>
-                    {% endfor %}
+            {% endfor %}
         </ul>
     </nav>
     
