@@ -137,8 +137,8 @@ main {
     }
 
     input[type="submit"] {
+        float: right;
         margin-top: 20px;
-        margin-left: 5px;
         background-color: #000000;
         color: rgb(255, 255, 255);
         padding: 15px 30px;
