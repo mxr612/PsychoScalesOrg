@@ -9,7 +9,7 @@
     {% for scale_id, scale in scales.items() %}
     {% if scale.tag == tag %}
     <a class="title" href="/scales/{{ scale_id }}">{{ scale.get('title','未命名问卷') }}</a>
-    <p>{{ scale.abstract }}</p>
+    <p>{{ scale.abstract|safe }}</p>
     {% endif %}
     {% endfor %}
 </div>
