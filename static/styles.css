@@ -2,15 +2,10 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     margin: 0;
-    padding: 0;
-    padding-top: 20px;
     /* 使用 flexbox 布局实现 body 内元素的居中 */
     display: flex;
     justify-content: center;
     align-items: center;
-    /* 确保 body 至少占据整个视口的高度 */
-    min-height: 100vh;
-    margin: 0;
     padding-top: 80px;
     /* 增加顶部内边距避免内容被导航栏遮挡 */
     min-height: calc(100vh - 80px);
@@ -74,8 +69,7 @@ main {
     color: #333;
     width: 40%;
     max-width: 1200px;
-    /* 保留 margin: 0 auto; 用于水平居中 */
-    margin: 0 auto;
+
 }
 
 .scale-list .title {
@@ -87,6 +81,11 @@ main {
 }
 
 @media (max-width: 768px) {
+    body {
+        justify-content: baseline;
+        align-items: baseline;
+    }
+
     nav {
         .menu-toggle {
             display: block;
@@ -110,11 +109,8 @@ main {
     }
 
     main {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0);
         width: 95%;
-        /* 全屏展示 */
-        padding-top: 10px;
-        padding: 10px;
-        /* 适当调整内边距 */
     }
 }
 
@@ -141,9 +137,11 @@ main {
     }
 
     input[type="submit"] {
+        margin-top: 20px;
+        margin-left: 5px;
         background-color: #000000;
         color: rgb(255, 255, 255);
-        padding: 10px 20px;
+        padding: 15px 30px;
         border: none;
         border-radius: 4px;
         cursor: pointer;
