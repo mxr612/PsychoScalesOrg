@@ -78,6 +78,14 @@ main {
     margin: 0 auto;
 }
 
+.scale-list .title {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: x-large;
+    transition: color 0.3s ease;
+    color: #34495e;
+}
+
 @media (max-width: 768px) {
     nav {
         .menu-toggle {

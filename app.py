@@ -28,6 +28,7 @@ def load_all_scales():
                     scale = yaml.safe_load(f)
                     scale['instructions']=markdown.markdown(scale['instructions'], extensions=['fenced_code','tables','mdx_math'])
                     scale['descriptions']=markdown.markdown(scale['descriptions'], extensions=['fenced_code','tables','mdx_math'])
+                    scale['abstract']=markdown.markdown(scale['abstract'], extensions=['fenced_code','tables','mdx_math'])
                     if 'tag' not in scale or scale['tag'] not in tagmap:
                         scale['tag']='other'
                     tags[scale['tag']]=tagmap[scale['tag']]
