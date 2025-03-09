@@ -9,7 +9,7 @@
 <div>
     {{ scale.instructions|safe }}
 </div>
-<form action="/scales/{{ scale_id }}" method="post">
+<form class="scale" action="/scales/{{ scale_id }}" method="post">
     {% for id, question in scale.questions.items() %}
     <label for="{{ id }}">{{ id }}. {{ question }}</label>
     <div class="scale-button">

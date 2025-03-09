@@ -35,30 +35,36 @@ main {
     }
 }
 
-/* 定义单选按钮容器样式 */
-.scale-button {
-    display: flex;
-    /* 按钮之间的间距 */
-}
+.scale {
+    .scale-button {
+        display: flex;
 
-/* 定义单选按钮隐藏样式 */
-.scale-button input[type="radio"] {
-    display: none;
-}
+        input[type="radio"] {
+            display: none;
+        }
 
-/* 定义单选按钮标签样式 */
-.scale-button label {
-    flex-grow: 1;
-    padding: 10px 0px;
-    cursor: pointer;
-    text-align: center;
-    border: 3px solid #ffffff00;
-}
+        label {
+            flex-grow: 1;
+            padding: 10px 0px;
+            cursor: pointer;
+            text-align: center;
+            border: 3px solid #ffffff00;
+        }
 
-/* 定义单选按钮选中时标签样式 */
-.scale-button input[type="radio"]:checked+label {
-    border: 3px solid #909090;
-    border-radius: 20px;
+        input[type="radio"]:checked+label {
+            border: 3px solid #909090;
+            border-radius: 20px;
+        }
+    }
+
+    input[type="submit"] {
+        background-color: #000000;
+        color: rgb(255, 255, 255);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
 }
 
 /* 导航栏样式 */
