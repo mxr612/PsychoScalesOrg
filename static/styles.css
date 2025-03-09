@@ -49,15 +49,16 @@ main {
 /* 定义单选按钮标签样式 */
 .scale-button label {
     flex-grow: 1;
-    border: 1px solid #ccc;
+    padding: 10px 0px;
     cursor: pointer;
     text-align: center;
+    border: 3px solid #ffffff00;
 }
 
 /* 定义单选按钮选中时标签样式 */
 .scale-button input[type="radio"]:checked+label {
-    background-color: #007BFF;
-    color: white;
+    border: 3px solid #909090;
+    border-radius: 20px;
 }
 
 /* 导航栏样式 */
