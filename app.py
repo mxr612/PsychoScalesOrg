@@ -88,10 +88,12 @@ async def result(request: Request, scale_id: str):
         ranges = {}
         for subscale, qids in scale['subscales'].items():
             responses[subscale] = 0
-            ranges[subscale] = [len(scale['range'][0]*qids),len(scale['range'][1]*qids)]
+            min_val = min(scale['range'].keys())
+            max_val = max(scale['range'].keys())
+            ranges[subscale] = [min_val*len(qids),max_val*len(qids)]
             for qid in qids:
                 if qid<0:
-                    responses[subscale] += scale['range'][0] + scale['range'][1] - int(form_data[str(-qid)])
+                    responses[subscale] += min_val + max_val - int(form_data[str(-qid)])
                 else:
                     responses[subscale] += int(form_data[str(qid)])
         return templates.TemplateResponse("result.html", {
