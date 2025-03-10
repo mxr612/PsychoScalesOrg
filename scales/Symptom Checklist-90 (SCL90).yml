@@ -3,7 +3,7 @@ tag: en
 instructions: |
   Below is a list of problems and complaints that people sometimes have. Please read each one carefully. After you have done so, select one of the numbered descriptors that best describes HOW
   MUCH THAT PROBLEM HAS BOTHERED OR DISTRESSED YOU DURING THE
-  PAST WEEK, INCLUDING TODAY. Circle the number in the space to the right of the problem and do not skip any items. Use the following key to guide how you respond:
+  PAST WEEK, INCLUDING TODAY. Circle the number in the space to the right of the problem and do not skip any items. Use Use the following key to guide how you respond:
 
   - Circle 0 if your answer is NOT AT ALL
   - Circle 1 if A LITTLE BIT
@@ -26,7 +26,12 @@ subscales:
   Paranoid ideation: [8, 18, 43, 68, 76, 83]
   Psychoticism: [7, 16, 35, 62, 77, 84, 85, 87, 88, 90]
   Additional items: [19, 44, 59, 60, 64, 89]
-range: [0,4]
+range:
+  0:  NOT AT ALL
+  1:  A LITTLE BIT
+  2:  MODERATELY
+  3:  QUITE A BIT
+  4:  EXTREMELY
 questions:
   1: Headaches
   2: Nervousness or shakiness inside
