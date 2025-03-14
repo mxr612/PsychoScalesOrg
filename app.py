@@ -62,7 +62,7 @@ async def list(request: Request, tag: str):
         "tags": tags,
         "scales": scales,
         "tag": tag
-    })
+    })  
 
 @app.get("/scales/{scale_id}", response_class=HTMLResponse)
 async def scale(request: Request, scale_id: str):
@@ -85,12 +85,12 @@ async def result(request: Request, scale_id: str):
     if scale:
         # 这里可以添加保存数据到数据库等逻辑
         responses = {}
-        ranges = {}
+        options = {}
         for subscale, qids in scale['subscales'].items():
             responses[subscale] = 0
-            min_val = min(scale['range'].keys())
-            max_val = max(scale['range'].keys())
-            ranges[subscale] = [min_val*len(qids),max_val*len(qids)]
+            min_val = min(scale['options'].keys())
+            max_val = max(scale['options'].keys())
+            options[subscale] = [min_val*len(qids),max_val*len(qids)]
             for qid in qids:
                 if qid<0:
                     responses[subscale] += min_val + max_val - int(form_data[str(-qid)])
@@ -99,7 +99,7 @@ async def result(request: Request, scale_id: str):
         return templates.TemplateResponse("result.html", {
             "request": request,
             "responses": responses,
-            "ranges": ranges,
+            "options": options,
             "scale": scale,
             "tags":tags
         })

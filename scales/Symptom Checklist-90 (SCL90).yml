@@ -26,13 +26,13 @@ subscales:
   Paranoid ideation: [8, 18, 43, 68, 76, 83]
   Psychoticism: [7, 16, 35, 62, 77, 84, 85, 87, 88, 90]
   Additional items: [19, 44, 59, 60, 64, 89]
-range:
+options:
   0:  NOT AT ALL
   1:  A LITTLE BIT
   2:  MODERATELY
   3:  QUITE A BIT
   4:  EXTREMELY
-questions:
+items:
   1: Headaches
   2: Nervousness or shakiness inside
   3: Unwanted thoughts, words, or ideas that won’t leave your mind

@@ -136,7 +136,7 @@ main {
 
         input[type="radio"]:checked+label {
             border: 3px solid #909090;
-            border-radius: 20px;
+            border-radius: 40px;
         }
     }
 
