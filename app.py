@@ -13,7 +13,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 加载所有问卷数据
 def load_all_scales():
-    scale_folder = 'scales'
+    scale_folder = os.path.realpath('scales')
     scales = {}
     tags = {}
     try:

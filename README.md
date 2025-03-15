@@ -6,7 +6,8 @@ PsychoScales网站是一个专业的心理学资源平台，旨在为用户提�
 
 作为PsychoScales网站的用户，您可以通过简单的在线测试，快速获取关于自己心理特征的详细报告和分析。这些测量工具基于权威的心理学理论和研究，确保了测试结果的准确性和可靠性。
 
-[PsychoScales主站](https://psygscales.com/)
+本网站旨在提供免费的量表分享和结果计算。
+如果您需要解析，您可以在[心尺PsychoScales](https://www.psychoscales.com/)得到全面、深入的AI结果解析。
 
 联系我们：feedback@psygscales.com
 
