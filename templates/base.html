@@ -4,14 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="心尺PsychoScales是一个免费的心理测验和报告解读工具，提供了丰富的测试题和专业的解读。">
+    <meta name="keywords" content="心尺, PsychoScales, 心理测验, 报告解读, 测试题, 心理测试">
+    <meta name="baidu-site-verification" content="codeva-mPOBUr0rLS" />
     <link rel="stylesheet" href="/static/styles.css">
-    <!-- 添加KaTeX支持 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [
-              {left: '$$', right: '$$', display: true},
-              {left: '$', right: '$', display: false}]});">
-            </script>
     {% block head_extra %}{% endblock %}
 </head>
 
@@ -31,6 +27,15 @@
     <main>
         {% block main %}{% endblock %}
     </main>
+
+        <!-- 添加KaTeX支持 -->
+        <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+                    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+                    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+                        onload="renderMathInElement(document.body, {delimiters: [
+  {left: '$$', right: '$$', display: true},
+  {left: '$', right: '$', display: false}]});">
+</script>
 </body>
 
 </html>
