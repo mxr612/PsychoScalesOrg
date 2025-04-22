@@ -13,7 +13,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 加载所有问卷数据
 def load_all_scales():
-    scale_folder = os.path.realpath('scales')
     scales = {}
     tags = {}
     try:
@@ -21,21 +20,22 @@ def load_all_scales():
             tagmap = yaml.safe_load(f)
     except Exception as e:
         print(f"Error loading scale langmap: {e}")
-    for filename in os.listdir(scale_folder):
-        if filename.endswith(('.yaml', '.yml')):
-            try:
-                with open(os.path.join(scale_folder, filename), 'r', encoding='utf-8') as f:
-                    scale = yaml.safe_load(f)
-                    scale['instructions']=markdown.markdown(scale['instructions'], extensions=['fenced_code','tables','mdx_math'])
-                    scale['descriptions']=markdown.markdown(scale['descriptions'], extensions=['fenced_code','tables','mdx_math'])
-                    scale['abstract']=markdown.markdown(scale['abstract'], extensions=['fenced_code','tables','mdx_math'])
-                    if 'tag' not in scale or scale['tag'] not in tagmap:
-                        scale['tag']='other'
-                    tags[scale['tag']]=tagmap[scale['tag']]
-                    scale_id = os.path.splitext(filename)[0] # 使用文件名作为标识
-                    scales[scale_id] = scale
-            except Exception as e:
-                print(f"Error loading scale {filename}: {e}")
+    for root, dirs, files in os.walk(os.path.realpath('scales')):
+        for filename in files:
+            if filename.endswith(('.yaml', '.yml')):
+                try:
+                    with open(os.path.join(root, filename), 'r', encoding='utf-8') as f:
+                        scale = yaml.safe_load(f)
+                        scale['instructions']=markdown.markdown(scale['instructions'], extensions=['fenced_code','tables','mdx_math'])
+                        scale['descriptions']=markdown.markdown(scale['descriptions'], extensions=['fenced_code','tables','mdx_math'])
+                        scale['abstract']=markdown.markdown(scale['abstract'], extensions=['fenced_code','tables','mdx_math'])
+                        if 'tag' not in scale or scale['tag'] not in tagmap:
+                            scale['tag']='other'
+                        tags[scale['tag']]=tagmap[scale['tag']]
+                        scale_id = os.path.splitext(filename)[0] # 使用文件名作为标识
+                        scales[scale_id] = scale
+                except Exception as e:
+                    print(f"Error loading scale {filename}: {e}")
     return tags, scales
 
 @app.get("/", response_class=HTMLResponse)
