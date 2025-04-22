@@ -13,9 +13,9 @@
     {% for id, question in scale['items'].items() %}
     <label for="{{ id }}">{{ id }}. {{ question }}</label>
     <div class="scale-button">
-        {% for option, lable in scale.options.items() %}
+        {% for option, label in scale.options.items() %}
         <input type="radio" id="{{ id }}_{{ option }}" name="{{ id }}" value="{{ option }}" required>
-        <label for="{{ id }}_{{ option }}">{{ option }}</label>
+        <label for="{{ id }}_{{ option }}" title="{{label}}">{{ option }}</label>
         {% endfor %}
     </div>
     {% endfor %}
