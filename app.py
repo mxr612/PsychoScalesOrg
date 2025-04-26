@@ -14,12 +14,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # 加载所有问卷数据
 def load_all_scales():
     scales = {}
-    tags = {}
-    try:
-        with open(os.path.join('tagmap.yml'), 'r', encoding='utf-8') as f:    
-            tagmap = yaml.safe_load(f)
-    except Exception as e:
-        print(f"Error loading scale langmap: {e}")
+    tags = []
     for root, dirs, files in os.walk(os.path.realpath('scales')):
         for filename in files:
             if filename.endswith(('.yaml', '.yml')):
@@ -29,9 +24,10 @@ def load_all_scales():
                         scale['instructions']=markdown.markdown(scale['instructions'], extensions=['fenced_code','tables','mdx_math'])
                         scale['descriptions']=markdown.markdown(scale['descriptions'], extensions=['fenced_code','tables','mdx_math'])
                         scale['abstract']=markdown.markdown(scale['abstract'], extensions=['fenced_code','tables','mdx_math'])
-                        if 'tag' not in scale or scale['tag'] not in tagmap:
-                            scale['tag']='other'
-                        tags[scale['tag']]=tagmap[scale['tag']]
+                        if 'tag' not in scale:
+                            scale['tag']='其他'
+                        if scale['tag'] not in tags:
+                            tags.append(scale['tag'])
                         scale_id = os.path.splitext(filename)[0] # 使用文件名作为标识
                         scales[scale_id] = scale
                 except Exception as e:
