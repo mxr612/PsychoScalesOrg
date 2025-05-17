@@ -81,6 +81,7 @@ async def result(request: Request, scale_id: str):
     if scale:
         # 这里可以添加保存数据到数据库等逻辑
         responses = {}
+        average = {}
         options = {}
         for subscale, qids in scale['subscales'].items():
             responses[subscale] = 0
@@ -92,9 +93,11 @@ async def result(request: Request, scale_id: str):
                     responses[subscale] += min_val + max_val - int(form_data[str(-qid)])
                 else:
                     responses[subscale] += int(form_data[str(qid)])
+            average[subscale] = round(responses[subscale]/len(qids),2)
         return templates.TemplateResponse("result.html", {
             "request": request,
             "responses": responses,
+            "average": average,
             "options": options,
             "scale": scale,
             "tags":tags
