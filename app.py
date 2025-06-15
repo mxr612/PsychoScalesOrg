@@ -9,7 +9,7 @@ import uvicorn
 from datetime import datetime
 from xml.etree import ElementTree as ET
 from sqlalchemy.orm import Session
-from database import get_db, RawResponse
+from database import get_db, ScaleResult
 import geoip2.database
 
 app = FastAPI()
@@ -126,7 +126,7 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
                 request.headers.get("X-Real-IP", "") or \
                 request.client.host # Get real IP address considering proxy headers
             location = get_location_from_ip(ip)# Get location information
-            db_response = RawResponse(
+            db_response = ScaleResult(
                 scale_id=scale_id,
                 user_agent=request.headers.get("user-agent", "Unknown"),
                 ip_address=ip,

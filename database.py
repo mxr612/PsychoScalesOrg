@@ -15,7 +15,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
-class Response(Base):
+class ScaleResult(Base):
     __tablename__ = "responses"
     id = Column(Integer, primary_key=True, index=True)
     scale_id = Column(String, index=True)
