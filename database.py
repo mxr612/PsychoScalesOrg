@@ -15,13 +15,13 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
-class RawResponse(Base):
+class Response(Base):
     __tablename__ = "responses"
     id = Column(Integer, primary_key=True, index=True)
     scale_id = Column(String, index=True)
     user_agent = Column(String)
     ip_address = Column(String)
-    location = Column(String)
+    location = Column(JSON)
     raw_response = Column(JSON)
     sum_response = Column(JSON)
     avg_response = Column(JSON)
