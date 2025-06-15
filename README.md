@@ -3,9 +3,9 @@
 ## 关于心尺.Org
 
 这个一个开源的量表框架，基于Python搭建。
-本项目的量表加载完全基于YAML，不使用任何数据库。在易于编辑和易于加载中间达到了平衡。
+本项目的量表加载完全基于YAML，在易于编辑和易于加载中间达到了平衡。
 
-[开源地址](https://git.mxr612.io/PsychoScales/PsychoScales)
+[开源地址](https://git.mxr612.io/PsychoScales/PsychoScalesOrg)
 
 联系我们：feedback@psychoscales.com
 
