@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime, UTC
 import json
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./psychoscales.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./public/psychoscales.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
