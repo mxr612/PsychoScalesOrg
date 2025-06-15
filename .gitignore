@@ -1,3 +1,4 @@
 scales/
-psychoscales.db
 __pycache__/
+psychoscales.db
+GeoLite2-City.mmdb

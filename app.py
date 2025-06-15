@@ -10,10 +10,33 @@ from datetime import datetime
 from xml.etree import ElementTree as ET
 from sqlalchemy.orm import Session
 from database import get_db, RawResponse
+import geoip2.database
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Initialize GeoIP2 reader
+try:
+    geoip_reader = geoip2.database.Reader('GeoLite2-City.mmdb')
+except FileNotFoundError:
+    print("Warning: GeoLite2-City.mmdb not found. IP location lookup will be disabled.")
+    geoip_reader = None
+
+def get_location_from_ip(ip):
+    if not geoip_reader:
+        return None
+    try:
+        response = geoip_reader.city(ip)
+        return {
+            'country': response.country.name,
+            'city': response.city.name,
+            'latitude': response.location.latitude,
+            'longitude': response.location.longitude
+        }
+    except Exception as e:
+        print(f"Error getting location for IP {ip}: {e}")
+        return None
 
 # 加载所有问卷数据
 def load_all_scales():
@@ -83,19 +106,6 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
     tags, scales = load_all_scales()
     scale = scales.get(scale_id)
     if scale:
-        # Save response to database
-        # Get real IP address considering proxy headers
-        ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or \
-             request.headers.get("X-Real-IP", "") or \
-             request.client.host
-        db_response = RawResponse(
-            scale_id=scale_id,
-            user_agent=request.headers.get("user-agent", "Unknown"),
-            ip_address=ip,
-            response=dict(form_data)
-        )
-        db.add(db_response)
-        db.commit()
         responses = {}
         average = {}
         options = {}
@@ -110,6 +120,22 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
                 else:
                     responses[subscale] += int(form_data[str(qid)])
             average[subscale] = round(responses[subscale]/len(qids),2)
+        # Save response to database
+        ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or \
+             request.headers.get("X-Real-IP", "") or \
+             request.client.host # Get real IP address considering proxy headers
+        location = get_location_from_ip(ip)# Get location information
+        db_response = RawResponse(
+            scale_id=scale_id,
+            user_agent=request.headers.get("user-agent", "Unknown"),
+            ip_address=ip,
+            location=json.dumps(location) if location else None,
+            raw_response=dict(form_data),
+            sum_response=responses,
+            avg_response=average
+        )
+        db.add(db_response)
+        db.commit()
         return templates.TemplateResponse("result.html", {
             "request": request,
             "responses": responses,
