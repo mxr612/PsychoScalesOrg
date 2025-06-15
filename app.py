@@ -1,23 +1,17 @@
 from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse, FileResponse, Response
 import markdown
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import json, yaml
 import os
 import uvicorn
+from datetime import datetime
+from xml.etree import ElementTree as ET
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Mount all files from public directory to root
-@app.get("/{filename}")
-async def get_public_file(filename: str):
-    public_path = os.path.join("public", filename)
-    if os.path.isfile(public_path):
-        return FileResponse(public_path)
-    raise HTTPException(status_code=404, detail="File not found")
 
 # 加载所有问卷数据
 def load_all_scales():
@@ -112,6 +106,61 @@ async def result(request: Request, scale_id: str):
         })
     raise HTTPException(status_code=404, detail="问卷未找到")
 
+def generate_sitemap():
+    # Create the root element
+    urlset = ET.Element("urlset", xmlns="http://www.sitemaps.org/schemas/sitemap/0.9")
+    
+    latest_mtime = max(
+        os.path.getmtime(os.path.join(root, f))
+        for root, _, files in os.walk('scales')
+        for f in files if f.endswith(('.yaml', '.yml'))
+    )
+
+    # Add static routes
+    static_routes = ["/"]  # Add your static routes here
+    for route in static_routes:
+        url = ET.SubElement(urlset, "url")
+        ET.SubElement(url, "loc").text = f"https://psychoscales.org{route}"
+        ET.SubElement(url, "lastmod").text = datetime.fromtimestamp(latest_mtime).strftime("%Y-%m-%d")
+        ET.SubElement(url, "changefreq").text = "monthly"
+        ET.SubElement(url, "priority").text = "0.8"
+    
+    # Add dynamic tag routes
+    tags, scales = load_all_scales()
+    for tag in tags:
+        url = ET.SubElement(urlset, "url")
+        ET.SubElement(url, "loc").text = f"https://psychoscales.org/tag/{tag}"
+        ET.SubElement(url, "lastmod").text = datetime.fromtimestamp(latest_mtime).strftime("%Y-%m-%d")
+        ET.SubElement(url, "changefreq").text = "weekly"
+        ET.SubElement(url, "priority").text = "0.6"
+
+    # Add dynamic scale routes
+    for scale_id in scales.keys():
+        url = ET.SubElement(urlset, "url")
+        ET.SubElement(url, "loc").text = f"https://psychoscales.org/scales/{scale_id}"
+        # For individual scale pages, use the actual file modification time
+        scale_file = os.path.join('scales', f"{scale_id}.yaml")
+        if os.path.exists(scale_file):
+            mtime = os.path.getmtime(scale_file)
+            ET.SubElement(url, "lastmod").text = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d")
+        ET.SubElement(url, "changefreq").text = "monthly"
+        ET.SubElement(url, "priority").text = "0.6"
+    
+    # Convert to string
+    return ET.tostring(urlset, encoding='unicode', method='xml')
+
+# Mount all files from public directory to root
+@app.get("/{filename}")
+async def get_public_file(filename: str):
+    public_path = os.path.join("public", filename)
+    if filename == "sitemap.xml":
+        return Response(
+        content=generate_sitemap(),
+        media_type="application/xml"
+    )
+    if os.path.isfile(public_path):
+        return FileResponse(public_path)
+    raise HTTPException(status_code=404, detail="File not found")
 
 if __name__ == '__main__':
    uvicorn.run(app,host='0.0.0.0',port=8000)
