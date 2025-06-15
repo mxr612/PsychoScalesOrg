@@ -120,22 +120,25 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
                 else:
                     responses[subscale] += int(form_data[str(qid)])
             average[subscale] = round(responses[subscale]/len(qids),2)
-        # Save response to database
-        ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or \
-             request.headers.get("X-Real-IP", "") or \
-             request.client.host # Get real IP address considering proxy headers
-        location = get_location_from_ip(ip)# Get location information
-        db_response = RawResponse(
-            scale_id=scale_id,
-            user_agent=request.headers.get("user-agent", "Unknown"),
-            ip_address=ip,
-            location=json.dumps(location) if location else None,
-            raw_response=dict(form_data),
-            sum_response=responses,
-            avg_response=average
-        )
-        db.add(db_response)
-        db.commit()
+        try:
+            # Save response to database
+            ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or \
+                request.headers.get("X-Real-IP", "") or \
+                request.client.host # Get real IP address considering proxy headers
+            location = get_location_from_ip(ip)# Get location information
+            db_response = RawResponse(
+                scale_id=scale_id,
+                user_agent=request.headers.get("user-agent", "Unknown"),
+                ip_address=ip,
+                location=json.dumps(location) if location else None,
+                raw_response=dict(form_data),
+                sum_response=responses,
+                avg_response=average
+            )
+            db.add(db_response)
+            db.commit()
+        except Exception as e:
+            print(e)
         return templates.TemplateResponse("result.html", {
             "request": request,
             "responses": responses,
