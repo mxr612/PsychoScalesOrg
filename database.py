@@ -18,6 +18,7 @@ class RawResponse(Base):
     id = Column(Integer, primary_key=True, index=True)
     scale_id = Column(String, index=True)
     user_agent = Column(String)
+    ip_address = Column(String)
     response = Column(JSON)
     created_at = Column(DateTime, default=datetime.now(UTC))
 

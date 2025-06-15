@@ -87,6 +87,7 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
         db_response = RawResponse(
             scale_id=scale_id,
             user_agent=request.headers.get("user-agent", "Unknown"),
+            ip_address=request.client.host,
             response=dict(form_data)
         )
         db.add(db_response)
