@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.responses import HTMLResponse, FileResponse, Response
 import markdown
 from fastapi.staticfiles import StaticFiles
@@ -8,6 +8,8 @@ import os
 import uvicorn
 from datetime import datetime
 from xml.etree import ElementTree as ET
+from sqlalchemy.orm import Session
+from database import get_db, RawResponse
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -76,12 +78,19 @@ async def scale(request: Request, scale_id: str):
     raise HTTPException(status_code=404, detail="问卷未找到")
 
 @app.post("/scales/{scale_id}", response_class=HTMLResponse)
-async def result(request: Request, scale_id: str):
+async def result(request: Request, scale_id: str, db: Session = Depends(get_db)):
     form_data = await request.form()
     tags, scales = load_all_scales()
     scale = scales.get(scale_id)
     if scale:
-        # 这里可以添加保存数据到数据库等逻辑
+        # Save response to database
+        db_response = RawResponse(
+            scale_id=scale_id,
+            user_agent=request.headers.get("user-agent", "Unknown"),
+            response=dict(form_data)
+        )
+        db.add(db_response)
+        db.commit()
         responses = {}
         average = {}
         options = {}
