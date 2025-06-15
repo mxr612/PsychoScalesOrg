@@ -84,10 +84,14 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
     scale = scales.get(scale_id)
     if scale:
         # Save response to database
+        # Get real IP address considering proxy headers
+        ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or \
+             request.headers.get("X-Real-IP", "") or \
+             request.client.host
         db_response = RawResponse(
             scale_id=scale_id,
             user_agent=request.headers.get("user-agent", "Unknown"),
-            ip_address=request.client.host,
+            ip_address=ip,
             response=dict(form_data)
         )
         db.add(db_response)
