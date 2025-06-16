@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 import json
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./public/psychoscales.db"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./psychoscales.db"
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
