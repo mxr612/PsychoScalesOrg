@@ -248,7 +248,7 @@ def generate_sitemap():
     static_routes = ["/"]  # Add your static routes here
     for route in static_routes:
         url = ET.SubElement(urlset, "url")
-        ET.SubElement(url, "loc").text = f"https://psychoscales.org{route}"
+        ET.SubElement(url, "loc").text = f"https://www.psychoscales.org{route}"
         ET.SubElement(url, "lastmod").text = datetime.fromtimestamp(latest_mtime).strftime("%Y-%m-%d")
         ET.SubElement(url, "changefreq").text = "monthly"
         ET.SubElement(url, "priority").text = "0.8"
@@ -257,7 +257,7 @@ def generate_sitemap():
     tags, scales = load_all_scales()
     for tag in tags:
         url = ET.SubElement(urlset, "url")
-        ET.SubElement(url, "loc").text = f"https://psychoscales.org/tag/{tag}"
+        ET.SubElement(url, "loc").text = f"https://www.psychoscales.org/tag/{tag}"
         ET.SubElement(url, "lastmod").text = datetime.fromtimestamp(latest_mtime).strftime("%Y-%m-%d")
         ET.SubElement(url, "changefreq").text = "weekly"
         ET.SubElement(url, "priority").text = "0.6"
@@ -265,7 +265,7 @@ def generate_sitemap():
     # Add dynamic scale routes
     for scale_id in scales.keys():
         url = ET.SubElement(urlset, "url")
-        ET.SubElement(url, "loc").text = f"https://psychoscales.org/scales/{scale_id}"
+        ET.SubElement(url, "loc").text = f"https://www.psychoscales.org/scales/{scale_id}"
         # For individual scale pages, use the actual file modification time
         scale_file = os.path.join('scales', f"{scale_id}.yaml")
         if os.path.exists(scale_file):
