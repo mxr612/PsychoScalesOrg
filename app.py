@@ -15,10 +15,8 @@ from datetime import datetime, UTC
 import csv
 from io import StringIO
 from typing import Dict, List
-
-app = FastAPI()
-templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.types import ASGIApp
 
 # Initialize GeoIP2 reader
 try:
@@ -41,6 +39,58 @@ def get_location_from_ip(ip):
     except Exception as e:
         print(f"Error getting location for IP {ip}: {e}")
         return None
+
+class LanguageMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app: ASGIApp):
+        super().__init__(app)
+        self.default_language = "en"  # Default language
+        self.supported_languages = ["zh", "en"]  # Supported languages
+
+    async def dispatch(self, request: Request, call_next):
+        # Get language from query parameter
+        lang = request.query_params.get("lang")
+        
+        # If no language in query params, try to get from Accept-Language header
+        if not lang:
+            accept_language = request.headers.get("accept-language", "")
+            if accept_language:
+                # Parse Accept-Language header and get the first language
+                lang = accept_language.split(",")[0].split(";")[0].strip()[:2]
+        
+        # If still no language, try to detect from IP
+        if not lang and geoip_reader:
+            try:
+                ip = request.headers.get("X-Forwarded-For", "").split(",")[0].strip() or \
+                    request.headers.get("X-Real-IP", "") or \
+                    request.client.host
+                response = geoip_reader.city(ip)
+                country_to_lang = { # Map country to language
+                    "China": "zh",
+                    "Hong Kong": "zh",
+                    "Taiwan": "zh",
+                    "Macau": "zh",
+                    "United States": "en",
+                    "United Kingdom": "en",
+                }
+                lang = country_to_lang.get(response.country.name, self.default_language)
+            except:
+                lang = self.default_language
+        
+        # Ensure language is supported
+        if lang not in self.supported_languages:
+            lang = self.default_language
+            
+        # Add language to request state
+        request.state.language = lang
+        
+        # Continue processing the request
+        response = await call_next(request)
+        return response
+
+app = FastAPI()
+app.add_middleware(LanguageMiddleware)
+templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 加载所有问卷数据
 def load_all_scales():
@@ -78,7 +128,8 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "tags": tags,
-        "readme_content": readme_content  # 新增模板变量
+        "readme_content": readme_content,
+        "language": request.state.language  # Pass language to template
     })
 
 @app.get("/tag/{tag}", response_class=HTMLResponse)
