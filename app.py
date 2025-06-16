@@ -197,12 +197,12 @@ def generate_sitemap():
 # Mount all files from public directory to root
 @app.get("/{filename}")
 async def get_public_file(filename: str):
-    public_path = os.path.join("public", filename)
     if filename == "sitemap.xml":
         return Response(
         content=generate_sitemap(),
         media_type="application/xml"
     )
+    public_path = os.path.join("public", filename)
     if os.path.isfile(public_path):
         return FileResponse(public_path)
     raise HTTPException(status_code=404, detail="File not found")
