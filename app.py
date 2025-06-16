@@ -11,6 +11,7 @@ from xml.etree import ElementTree as ET
 from sqlalchemy.orm import Session
 from database import get_db, ScaleResult
 import geoip2.database
+from datetime import datetime, UTC
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -133,7 +134,8 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
                 location=location,
                 raw_response=dict(form_data),
                 sum_response=responses,
-                avg_response=average
+                avg_response=average,
+                created_at=datetime.now(UTC)
             )
             db.add(db_response)
             db.commit()
