@@ -157,7 +157,7 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
 @app.get("/download/{scale_id}")
 async def download_scale_results(scale_id: str, db: Session = Depends(get_db)):
     
-    if scale_id == "database":
+    if scale_id == "psychoscales.db":
         public_path = os.path.join("psychoscales.db")
         if os.path.isfile(public_path):
             return FileResponse(public_path)
