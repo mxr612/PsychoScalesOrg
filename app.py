@@ -155,7 +155,7 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
     raise HTTPException(status_code=404, detail="问卷未找到")
 
 @app.get("/download/{scale_id}")
-async def download_scale_results(scale_id: str, token: str, db: Session = Depends(get_db)):
+async def download_scale_results(scale_id: str, db: Session = Depends(get_db)):
     
     if scale_id == "database":
         public_path = os.path.join("psychoscales.db")
