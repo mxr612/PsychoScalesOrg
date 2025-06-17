@@ -95,7 +95,7 @@ for lang in os.listdir("templates"):
     templates[lang] = Jinja2Templates(directory="templates/"+lang)
 
 # 加载所有问卷数据
-def load_all_scales():
+def load_all_scales(lang: str = None):
     scales = {}
     tags = []
     for root, dirs, files in os.walk(os.path.realpath('scales')):
@@ -104,22 +104,23 @@ def load_all_scales():
                 try:
                     with open(os.path.join(root, filename), 'r', encoding='utf-8') as f:
                         scale = yaml.safe_load(f)
-                        scale['instructions']=markdown.markdown(scale['instructions'], extensions=['fenced_code','tables','mdx_math'])
-                        scale['descriptions']=markdown.markdown(scale['descriptions'], extensions=['fenced_code','tables','mdx_math'])
-                        scale['abstract']=markdown.markdown(scale['abstract'], extensions=['fenced_code','tables','mdx_math'])
-                        if 'tag' not in scale:
-                            scale['tag']='其他'
-                        if scale['tag'] not in tags:
-                            tags.append(scale['tag'])
-                        scale_id = os.path.splitext(filename)[0] # 使用文件名作为标识
-                        scales[scale_id] = scale
+                        if lang is None or (scale['lang'] and scale['lang'] == lang):
+                            scale['instructions']=markdown.markdown(scale['instructions'], extensions=['fenced_code','tables','mdx_math'])
+                            scale['descriptions']=markdown.markdown(scale['descriptions'], extensions=['fenced_code','tables','mdx_math'])
+                            scale['abstract']=markdown.markdown(scale['abstract'], extensions=['fenced_code','tables','mdx_math'])
+                            if 'tag' not in scale:
+                                scale['tag']='其他'
+                            if scale['tag'] not in tags:
+                                tags.append(scale['tag'])
+                            scale_id = os.path.splitext(filename)[0] # 使用文件名作为标识
+                            scales[scale_id] = scale
                 except Exception as e:
                     print(f"Error loading scale {filename}: {e}")
     return tags, scales
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    tags, _ = load_all_scales()
+    tags, _ = load_all_scales(request.state.language)
     # 新增读取README.md的逻辑
     readme_content = ""
     try:
@@ -135,7 +136,7 @@ async def index(request: Request):
 
 @app.get("/tag/{tag}", response_class=HTMLResponse)
 async def list(request: Request, tag: str):
-    tags, scales = load_all_scales()
+    tags, scales = load_all_scales(request.state.language)
     return templates[request.state.language].TemplateResponse("list.html", {
         "request": request,
         "tags": tags,
@@ -145,7 +146,7 @@ async def list(request: Request, tag: str):
 
 @app.get("/scales/{scale_id}", response_class=HTMLResponse)
 async def scale(request: Request, scale_id: str):
-    tags, scales = load_all_scales()
+    tags, scales = load_all_scales(request.state.language)
     scale = scales.get(scale_id)
     if scale:
         return templates[request.state.language].TemplateResponse("scale.html", {
@@ -159,7 +160,7 @@ async def scale(request: Request, scale_id: str):
 @app.post("/scales/{scale_id}", response_class=HTMLResponse)
 async def result(request: Request, scale_id: str, db: Session = Depends(get_db)):
     form_data = await request.form()
-    tags, scales = load_all_scales()
+    tags, scales = load_all_scales(request.state.language)
     scale = scales.get(scale_id)
     if scale:
         responses = {}
