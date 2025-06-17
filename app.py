@@ -273,6 +273,7 @@ async def download_scale_results(scale_id: str, db: Session = Depends(get_db)):
             return FileResponse(
                 "psychoscales.db",
                 headers={
+                    "Content-Disposition": f'attachment; filename="psychoscales.db"',
                     "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
                     "Pragma": "no-cache",
                     "Expires": "0"
