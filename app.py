@@ -9,7 +9,7 @@ import uvicorn
 from datetime import datetime
 from xml.etree import ElementTree as ET
 from sqlalchemy.orm import Session
-from database import get_db, ScaleResult
+from database import get_db, ScaleResult, new_user, User
 import geoip2.database
 from datetime import datetime, UTC
 import csv
@@ -100,8 +100,49 @@ class LanguageMiddleware(BaseHTTPMiddleware):
         
         return response
 
+class UserIdentityMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app: ASGIApp):
+        super().__init__(app)
+
+    async def dispatch(self, request: Request, call_next):
+        # Get user_id from cookie
+        user_id = request.cookies.get("user_id")
+        
+        # If no user_id in cookie, generate a new one
+        if not user_id:
+            user_id = new_user()
+        else:
+            # Update last_seen for existing user
+            db = next(get_db())
+            try:
+                user = db.query(User).filter(User.id == int(user_id)).first()
+                if user:
+                    user.last_seen = datetime.now(UTC)
+                    db.commit()
+            finally:
+                db.close()
+        
+        # Add user_id to request state
+        request.state.user_id = user_id
+        
+        # Continue processing the request
+        response = await call_next(request)
+        
+        # Set cookie if it's not already set
+        if not request.cookies.get("user_id"):
+            response.set_cookie(
+                key="user_id",
+                value=user_id,
+                max_age=None,  # Cookie will never expire
+                httponly=True,
+                samesite="lax"
+            )
+        
+        return response
+
 app = FastAPI()
 app.add_middleware(LanguageMiddleware)
+app.add_middleware(UserIdentityMiddleware)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = {}
 for lang in os.listdir("templates"):
@@ -200,6 +241,7 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
             location = get_location_from_ip(ip)# Get location information
             db_response = ScaleResult(
                 scale_id=scale_id,
+                user_id=request.state.user_id,
                 user_agent=request.headers.get("user-agent", "Unknown"),
                 ip_address=ip,
                 location=location,
