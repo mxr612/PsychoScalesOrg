@@ -267,10 +267,17 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
 @app.get("/download/{scale_id}")
 async def download_scale_results(scale_id: str, db: Session = Depends(get_db)):
     
-    if scale_id == "psychoscales.db":
+    if scale_id == "database":
         public_path = os.path.join("psychoscales.db")
         if os.path.isfile(public_path):
-            return FileResponse(public_path)
+            return FileResponse(
+                "psychoscales.db",
+                headers={
+                    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+                    "Pragma": "no-cache",
+                    "Expires": "0"
+                }
+            )
         raise HTTPException(status_code=404, detail="File not found")
 
     # Get all responses for this scale
@@ -340,7 +347,10 @@ async def download_scale_results(scale_id: str, db: Session = Depends(get_db)):
         content=output.getvalue(),
         media_type="text/csv",
         headers={
-            "Content-Disposition": f'attachment; filename="{scale_id}_responses.csv"'
+            "Content-Disposition": f'attachment; filename="{scale_id}_responses.csv"',
+            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+            "Pragma": "no-cache",
+            "Expires": "0"
         }
     )
 
