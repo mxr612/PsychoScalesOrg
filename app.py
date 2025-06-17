@@ -146,7 +146,7 @@ async def list(request: Request, tag: str):
 
 @app.get("/scales/{scale_id}", response_class=HTMLResponse)
 async def scale(request: Request, scale_id: str):
-    tags, scales = load_all_scales(request.state.language)
+    tags, scales = load_all_scales()
     scale = scales.get(scale_id)
     if scale:
         return templates[request.state.language].TemplateResponse("scale.html", {
@@ -160,7 +160,7 @@ async def scale(request: Request, scale_id: str):
 @app.post("/scales/{scale_id}", response_class=HTMLResponse)
 async def result(request: Request, scale_id: str, db: Session = Depends(get_db)):
     form_data = await request.form()
-    tags, scales = load_all_scales(request.state.language)
+    tags, scales = load_all_scales()
     scale = scales.get(scale_id)
     if scale:
         responses = {}
