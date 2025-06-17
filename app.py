@@ -124,7 +124,7 @@ async def index(request: Request):
     # 新增读取README.md的逻辑
     readme_content = ""
     try:
-        with open("README.md", "r", encoding="utf-8") as f:
+        with open("templates/"+request.state.language+"/index.md", "r", encoding="utf-8") as f:
             readme_content = markdown.markdown(f.read())
     except FileNotFoundError:
         pass  # 如果README不存在则静默失败
