@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+<title>PsychoScales.Org</title>
+{% endblock %}
+
+{% block main %}
+{% if readme_content %}
+<div class="readme-section">
+    {{ readme_content|safe }}
+</div>
+{% endif %}
+{% endblock %}

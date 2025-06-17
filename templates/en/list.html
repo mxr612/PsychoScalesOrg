@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+<title>{{ tag }}</title>
+{% endblock %}
+
+{% block main %}
+<div class="scale-list">
+    {% for scale_id, scale in scales.items() %}
+    {% if scale.tag == tag %}
+    <a class="title" href="/scales/{{ scale_id }}">{{ scale.get('title','Untitled') }}</a>
+    <p>{{ scale.abstract|safe }}</p>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

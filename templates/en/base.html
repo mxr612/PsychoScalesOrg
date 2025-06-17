@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ language }}">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -15,11 +15,11 @@
 <body>
     <nav>
         <div class="nav-left">
-            <a href="/" class="logo">心尺.Org</a>
+            <a href="/" class="logo">PsychoScales.Org</a>
         </div>
         <div class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰ </div>
         <ul class="nav-links">
-            <li><a href="https://doc.psychoscales.com/"">文档</a></li>
+            <li><a href="https://doc.psychoscales.com/"">Docs</a></li>
             {% for tag in tags %}
             <li><a href=" /tag/{{ tag }}"">{{ tag }}</a></li>
             {% endfor %}

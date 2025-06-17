@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PsychoScales心理学专业量表数据库，提供标准化心理测评工具，包含人格测试、症状评估等2000+临床心理学量表，支持在线测评及科研数据导出。">
+    <meta name="keywords" content="心尺, PsychoScales, 心理学量表,专业心理测评,抑郁症测试,焦虑症自评,在线心理测评系统,心理咨询师工具, 心理测验, 报告解读, 测试题">
+    <meta name="baidu-site-verification" content="codeva-mPOBUr0rLS" />
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    {% block head_extra %}{% endblock %}
+</head>
+
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="/" class="logo">心尺.Org</a>
+        </div>
+        <div class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰ </div>
+        <ul class="nav-links">
+            <li><a href="https://doc.psychoscales.com/"">文档</a></li>
+            {% for tag in tags %}
+            <li><a href=" /tag/{{ tag }}"">{{ tag }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    <!-- 添加KaTeX支持 -->
+    <link rel=" stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [
+  {left: '$$', right: '$$', display: true},
+  {left: '$', right: '$', display: false}]});">
+</script>
+</body>
+
+</html>

@@ -89,8 +89,10 @@ class LanguageMiddleware(BaseHTTPMiddleware):
 
 app = FastAPI()
 app.add_middleware(LanguageMiddleware)
-templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = {}
+for lang in os.listdir("templates"):
+    templates[lang] = Jinja2Templates(directory="templates/"+lang)
 
 # 加载所有问卷数据
 def load_all_scales():
@@ -125,17 +127,16 @@ async def index(request: Request):
             readme_content = markdown.markdown(f.read())
     except FileNotFoundError:
         pass  # 如果README不存在则静默失败
-    return templates.TemplateResponse("index.html", {
+    return templates[request.state.language].TemplateResponse("index.html", {
         "request": request,
         "tags": tags,
-        "readme_content": readme_content,
-        "language": request.state.language  # Pass language to template
+        "readme_content": readme_content
     })
 
 @app.get("/tag/{tag}", response_class=HTMLResponse)
 async def list(request: Request, tag: str):
     tags, scales = load_all_scales()
-    return templates.TemplateResponse("list.html", {
+    return templates[request.state.language].TemplateResponse("list.html", {
         "request": request,
         "tags": tags,
         "scales": scales,
@@ -147,7 +148,7 @@ async def scale(request: Request, scale_id: str):
     tags, scales = load_all_scales()
     scale = scales.get(scale_id)
     if scale:
-        return templates.TemplateResponse("scale.html", {
+        return templates[request.state.language].TemplateResponse("scale.html", {
             "request": request,
             "scale_id": scale_id,
             "scale": scale,
@@ -195,7 +196,7 @@ async def result(request: Request, scale_id: str, db: Session = Depends(get_db))
             db.commit()
         except Exception as e:
             print(e)
-        return templates.TemplateResponse("result.html", {
+        return templates[request.state.language].TemplateResponse("result.html", {
             "request": request,
             "responses": responses,
             "average": average,

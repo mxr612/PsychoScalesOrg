@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+<title>{{scale.title}}</title>
+{% endblock %}
+
+{% block main %}
+<h1>{{ scale.title }} </h1>
+<ul>
+    {% for key, value in responses.items() %}
+    <li>{{ key }}: Got {{ value }} in a {{options[key][0]}} to {{options[key][1]}} scale, with {{ average[key] }} in average</li>
+    {% endfor %}
+</ul>
+<div>
+    {{scale.descriptions|safe}}
+</div>
+{% endblock %}

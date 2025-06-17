@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block head_extra %}
+<title>心尺.Org</title>
+{% endblock %}
+
+{% block main %}
+{% if readme_content %}
+<div class="readme-section">
+    {{ readme_content|safe }}
+</div>
+{% endif %}
+{% endblock %}
