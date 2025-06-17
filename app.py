@@ -49,7 +49,9 @@ class LanguageMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         # Get language from query parameter
         lang = request.query_params.get("lang")
-        
+        if not lang:
+            lang = request.cookies.get("lang")
+      
         # If no language in query params, try to get from Accept-Language header
         if not lang:
             accept_language = request.headers.get("accept-language", "")
@@ -85,6 +87,17 @@ class LanguageMiddleware(BaseHTTPMiddleware):
         
         # Continue processing the request
         response = await call_next(request)
+        
+        # Set cookie if it's not already set or if it's different
+        if not request.cookies.get("lang") or request.cookies.get("lang") != lang:
+            response.set_cookie(
+                key="lang",
+                value=lang,
+                max_age=365 * 24 * 60 * 60,  # 1 year
+                httponly=True,
+                samesite="lax"
+            )
+        
         return response
 
 app = FastAPI()
