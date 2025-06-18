@@ -88,15 +88,14 @@ class LanguageMiddleware(BaseHTTPMiddleware):
         # Continue processing the request
         response = await call_next(request)
         
-        # Set cookie if it's not already set or if it's different
-        if not request.cookies.get("lang") or request.cookies.get("lang") != lang:
-            response.set_cookie(
-                key="lang",
-                value=lang,
-                max_age=365 * 24 * 60 * 60,  # 1 year
-                httponly=True,
-                samesite="lax"
-            )
+        # Set cookie
+        response.set_cookie(
+            key="lang",
+            value=lang,
+            max_age=365 * 24 * 60 * 60,  # 1 year
+            httponly=True,
+            samesite="lax"
+        )
         
         return response
 
@@ -129,14 +128,14 @@ class UserIdentityMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         
         # Set cookie if it's not already set
-        if not request.cookies.get("user_id"):
-            response.set_cookie(
-                key="user_id",
-                value=user_id,
-                max_age=None,  # Cookie will never expire
-                httponly=True,
-                samesite="lax"
-            )
+
+        response.set_cookie(
+            key="user_id",
+            value=user_id,
+            max_age=365 * 24 * 60 * 60,  # 1 year
+            httponly=True,
+            samesite="lax"
+        )
         
         return response
 
