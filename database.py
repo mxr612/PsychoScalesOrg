@@ -54,7 +54,7 @@ def new_user() -> int:
             user = User()
             user.last_seen = user.created_at = datetime.now(UTC)
             db.add(user)
-            db.commit()
+            db.flush()
             return user.id
     finally:
         db.close()
