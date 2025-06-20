@@ -19,3 +19,8 @@
 
 本网站旨在提供免费的量表分享和结果计算。
 如果您需要解析，您可以在[心尺](https://www.psychoscales.com/)得到全面、深入的AI结果解析。
+
+## Environments
+
+- Use Python 3.13.0
+- Requirements specified in requirements.txt
