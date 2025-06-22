@@ -1,0 +1,3 @@
+[submodule "scales.git"]
+	path = scales
+	url = https://git.mxr612.io/PsychoScales/scales.git
